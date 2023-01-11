@@ -87,4 +87,4 @@ sudo systemctl disable bluetooth.service
 source ~/.profile
 
 echo "all finished"
-#sudo reboot 
+sudo reboot 
