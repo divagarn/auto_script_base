@@ -46,8 +46,14 @@ rm -rf *
 cd
 
 ##This is to change the screen orientation and screen resolution and add in .profile
-echo 'xrandr --size 1280x720' >> ~/.profile
-echo 'xrandr -o left'  >> ~/.profile
+#echo 'xrandr --size 1280x720' >> ~/.profile
+#echo 'xrandr -o left'  >> ~/.profile
+sudo touch /etc/init.d/xrandr-startup
+echo 'xrandr --size 1280x720' >> /etc/init.d/xrandr-startup
+echo 'xrandr -o left'  >> /etc/init.d/xrandr-startup
+sudo update-rc.d xrandr-startup defaults
+
+
 
 ##This is to stop the Disable Error / Crash Report Popup
 enabled=1
