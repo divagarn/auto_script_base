@@ -15,7 +15,7 @@ cd ..
 
 ##This to copy the usb rules to the /etc/udev/rules.d/
 
-git clone https://HariharanMobiveil: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@github.com/haystack-nimbus/run_script.git
+git clone https://<username>:<token>@github.com/haystack-nimbus/run_script.git
 
 cd run_script/install
 sudo cp 10-local.rules  /etc/udev/rules.d/
