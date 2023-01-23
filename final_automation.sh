@@ -66,7 +66,7 @@ sudo sed -i 's/enabled=1/enabled=0/g' /etc/default/apport
 ##This is to enable automatic login in ubuntu
 sudo sed -i 's/#  AutomaticLoginEnable = true/  AutomaticLoginEnable = true/g' /etc/gdm3/custom.conf
 
-sudo sed -i 's/#  AutomaticLogin = haystack/  AutomaticLogin = haystack/g' /etc/gdm3/custom.conf
+sudo sed -i 's/#  AutomaticLogin = user1/  AutomaticLogin = haystack/g' /etc/gdm3/custom.conf
 
 ##This is for the touch calibration 
 sudo apt-get install xserver-xorg-input-libinput
