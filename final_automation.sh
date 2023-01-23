@@ -15,7 +15,7 @@ cd ..
 
 ##This to copy the usb rules to the /etc/udev/rules.d/
 
-git clone https://HariharanMobiveil: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@github.com/haystack-nimbus/run_script.git
+git clone https://HariharanMobiveil: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@github.com/haystack-nimbus/run_script.git
 
 cd run_script/install
 sudo cp 10-local.rules  /etc/udev/rules.d/
@@ -90,7 +90,6 @@ gdbus call --session --dest org.gnome.Shell.Extensions --object-path /org/gnome/
 sudo systemctl stop bluetooth.service
 sudo systemctl disable bluetooth.service
 
-source ~/.profile
 
 echo "all finished"
 sudo reboot 
