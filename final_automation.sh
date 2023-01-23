@@ -71,11 +71,6 @@ sudo cp /usr/share/X11/xorg.conf.d/40-libinput.conf /etc/X11/xorg.conf.d/
 sudo sed -i '43s/^/        Option "CalibrationMatrix" "0 -1 1 1 0 0 0 0 1"\n/' /etc/X11/xorg.conf.d/40-libinput.conf 
 
 
-##This is to enable automatic login in ubuntu
-sudo sed -i 's/#  AutomaticLoginEnable = true/  AutomaticLoginEnable = true/g' /etc/gdm3/custom.conf
-
-sudo sed -i 's/#  AutomaticLogin = user1/  AutomaticLogin = haystack/g' /etc/gdm3/custom.conf
-
 ##This is for the screen scaver
 gsettings set org.gnome.desktop.screensaver lock-enabled false
 gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'
@@ -92,4 +87,16 @@ sudo systemctl disable bluetooth.service
 
 
 echo "all finished"
-sudo reboot 
+
+##Asks users input to make reboot 
+
+echo "Do you want to reboot the system now? (yes/no)"
+read answer
+
+if [ "$answer" == "yes" ]; then
+    echo "Rebooting now..."
+    sudo reboot
+else
+    echo "Reboot cancelled."
+fi
+
