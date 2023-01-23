@@ -87,4 +87,15 @@ sudo systemctl disable bluetooth.service
 
 
 echo "all finished"
-sudo reboot
+
+##asks user permission to reboot the system
+
+echo "Do you want to reboot the system now? (yes/no)"
+read answer
+
+if [ "$answer" == "yes" ]; then
+    echo "Rebooting now..."
+    sudo reboot
+else
+    echo "Reboot cancelled."
+fi
