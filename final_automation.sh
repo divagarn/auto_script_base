@@ -30,7 +30,7 @@ gsettings set org.gnome.desktop.background picture-uri file:////home/haystack/ru
 #cd ~/catkin_ws
 #catkin_make
 cd
-echo 'xhost +' >> ~/.bashrc
+#echo 'xhost +' >> ~/.bashrc
 
 ##this is to install gnome shell
 sudo apt-get install -y gnome-shell-extensions
@@ -49,8 +49,12 @@ cd
 #echo 'xrandr --size 1280x720' >> ~/.profile
 #echo 'xrandr -o left'  >> ~/.profile
 sudo touch /etc/init.d/xrandr-startup
-echo 'xrandr --size 1280x720' >> /etc/init.d/xrandr-startup
-echo 'xrandr -o left'  >> /etc/init.d/xrandr-startup
+cd /etc/init.d
+chmod +x xrandr-startup
+cd
+
+echo -e "xhost +\nxrandr --size 1280x720\nxrandr --o left" | sudo tee /etc/init.d/xrandr-startup
+
 sudo update-rc.d xrandr-startup defaults
 
 
