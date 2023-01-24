@@ -15,7 +15,7 @@ cd ..
 
 ##This to copy the usb rules to the /etc/udev/rules.d/
 
-git clone https://<username>:<token>@github.com/haystack-nimbus/run_script.git
+git clone https://divagarn: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@github.com/haystack-nimbus/run_script.git
 
 cd run_script/install
 sudo cp 10-local.rules  /etc/udev/rules.d/
@@ -48,14 +48,27 @@ cd
 ##This is to change the screen orientation and screen resolution and add in .profile
 #echo 'xrandr --size 1280x720' >> ~/.profile
 #echo 'xrandr -o left'  >> ~/.profile
-sudo touch /etc/init.d/xrandr-startup
-cd /etc/init.d
-chmod +x xrandr-startup
-cd
+#sudo touch /etc/init.d/xrandr-startup
+#cd /etc/init.d
+#chmod +x xrandr-startup
+#cd
+sudo touch screenrotate.sh
+echo -e "#! /usr/bin/bash\nxrandr -o left\nxhost +\nxrandr --size 1280x720" | sudo tee screenrotate.sh
+chmod +x screenrotate.sh
 
-echo -e "xhost +\nxrandr --size 1280x720\nxrandr --o left" | sudo tee /etc/init.d/xrandr-startup
+sudo touch screenrotate.py
+echo 'import subprocess' >> screenrotate.py
+echo 'subprocess.run(["/bin/bash", "/home/haystack/screenrotate.sh"])' >> screenrotate.py
 
-sudo update-rc.d xrandr-startup defaults
+sudo touch /etc/systemd/system/screenrotate.service
+echo -e "[Unit]\nDescription=This script is to rotate the sreen\n[Service]\nExecStart=python3 /home/haystack/screenrotate.py\n[Install]\nWantedBy=multi-user.target" | sudo tee /etc/systemd/system/screenrotate.service
+
+sudo systemctl daemon-reload
+sudo systemctl enable screenrotate.service
+sudo systemctl start screenrotate.service
+#echo -e "xhost +\nxrandr --size 1280x720\nxrandr -o left" | sudo tee /etc/init.d/xrandr-startup
+
+#sudo update-rc.d xrandr-startup defaults
 
 
 
@@ -72,7 +85,7 @@ sudo sed -i 's/#  AutomaticLogin = user1/  AutomaticLogin = haystack/g' /etc/gdm
 sudo apt-get install xserver-xorg-input-libinput
 mkdir -p /etc/X11/xorg.conf.d
 sudo cp /usr/share/X11/xorg.conf.d/40-libinput.conf /etc/X11/xorg.conf.d/
-#sudo sed -i '43s/^/        Option "CalibrationMatrix" "0 -1 1 1 0 0 0 0 1"\n/' /etc/X11/xorg.conf.d/40-libinput.conf 
+sudo sed -i '43s/^/        Option "CalibrationMatrix" "0 -1 1 1 0 0 0 0 1"\n/' /etc/X11/xorg.conf.d/40-libinput.conf 
 
 
 ##This is for the screen scaver
@@ -80,15 +93,17 @@ gsettings set org.gnome.desktop.screensaver lock-enabled false
 gsettings set org.gnome.desktop.lockdown disable-lock-screen 'true'
 
 ##This is to hide the topbar
-echo "gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell --method org.gnome.Shell.Eval string:'Main.panel.actor.hide();' " >> ~/.bashrc
+echo "gdbus call --session --dest org.gnome.Shell --object-path /org/gnome/Shell --method org.gnome.Shell.Eval string:'Main.panel.actor.hide();' > /dev/null 2>&1" >> ~/.bashrc
 
 #This is to hide the dock 
 gdbus call --session --dest org.gnome.Shell.Extensions --object-path /org/gnome/Shell/Extensions --method org.gnome.Shell.Extensions.DisableExtension ubuntu-dock@ubuntu.com
 
+##To prevent the screen sleep 
+gsettings set org.gnome.desktop.session idle-delay 0
+
 ##This is to stop and disable bluetooth service
 sudo systemctl stop bluetooth.service
 sudo systemctl disable bluetooth.service
-
 
 echo "all finished"
 
