@@ -1,4 +1,17 @@
 #! /usr/bin/bash
+
+#############################################################################################
+#Script Name   :initial_board_setup.sh                                                               
+#Description   :This script dones all the base setup of the new board ready for the process.                              
+#Author        :DIVAGAR N                                                
+#Email         :n.divagar@mobiveil.co.in                                          
+#############################################################################################
+
+clear  
+echo "#####################################################################################" 
+echo "                       Board preparation procudure starts" 
+echo "#####################################################################################"
+
 echo 'haystack' | sudo -S apt-get update  ##This is the initial apt-get update 
 #source /opt/ros/noetic/setub.bash
 
@@ -15,7 +28,7 @@ cd ..
 
 ##This to copy the usb rules to the /etc/udev/rules.d/
 
-git clone https://<>:<>@github.com/haystack-nimbus/run_script.git
+git clone https://<username>:<token>@github.com/haystack-nimbus/run_script.git
 
 cd run_script/install
 sudo cp 10-local.rules  /etc/udev/rules.d/
