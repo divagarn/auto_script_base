@@ -16,34 +16,30 @@ echo 'haystack' | sudo -S apt-get update  ##This is the initial apt-get update
 #source /opt/ros/noetic/setub.bash
 
 ##These are to create folders and subfolders
-mkdir haystack_disinfect_report
+cd /
+mkdir haystack_disinfect_report && echo "sucessfully created haystack_disinfect_report"
 cd haystack_disinfect_report
 mkdir images
 mkdir database
 cd ..
-#mkdir catkin_ws 
-#cd catkin_ws
-#mkdir src 
-#cd src
+cd 
 
 ##This to copy the usb rules to the /etc/udev/rules.d/
 
 git clone https://<username>:<token>@github.com/haystack-nimbus/run_script.git
 
 cd run_script/install
-sudo cp 10-local.rules  /etc/udev/rules.d/
+sudo cp 10-local.rules  /etc/udev/rules.d/ && echo "usb rules file sucessfully created"
 cp robot_config.ini /home/haystack/haystack_disinfect_report/
 
 
 ##This is for the wallpaper1
-sudo cp Haystack_Logo.png /usr/share/backgrounds/NVIDIA_Login_Logo.png
+sudo cp Haystack_Logo.png /usr/share/backgrounds/NVIDIA_Login_Logo.png && echo "splash screen walpaper changed"
 
 ##This is for the wallpaper2
-gsettings set org.gnome.desktop.background picture-uri file:////home/haystack/run_script/install/Haystack_ScreenSaver.png
-#cd ~/catkin_ws
-#catkin_make
+gsettings set org.gnome.desktop.background picture-uri file:////home/haystack/run_script/install/Haystack_ScreenSaver.png && echo "desktop walpaper changed"
+
 cd
-#echo 'xhost +' >> ~/.bashrc
 
 ##this is to install gnome shell
 sudo apt-get install -y gnome-shell-extensions
