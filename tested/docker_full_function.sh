@@ -51,7 +51,7 @@ elif [ $choice -eq 4 ]; then
   sudo docker run -it -w /haystack_ws/ -d --env /opt/ros/noetic/setup.bash --privileged --name "haystack" $base_image_name:$base_tag
 
   # Clone a Git repository inside the container
-  sudo docker exec -it -w /haystack_ws haystack git clone https://divagarn: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@github.com/haystack-nimbus/src.git -b noetic-main
+  sudo docker exec -it -w /haystack_ws haystack git clone https://<userid>:<tokenid>@github.com/haystack-nimbus/src.git -b noetic-main
   sudo docker exec -it -w /haystack_ws  haystack bash -c "source /opt/ros/noetic/setup.bash && catkin_make"
   
   read -p "Enter the name for the New image: " image_name
