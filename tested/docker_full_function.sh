@@ -38,28 +38,34 @@ elif [ $choice -eq 3 ]; then
   
   sudo docker push $image_name:$tag
   
-##this step 4 not tested fully
 
 elif [ $choice -eq 4 ]; then
   read -p "Enter the name for the base existing image: " base_image_name
   read -p "Enter the tag for the base existing image: " base_tag
+  # Pull existing Docker image
   sudo docker pull $base_image_name:$base_tag
-  echo "pull completed"
+
+  sudo docker stop haystack
+  sudo docker rm haystack
+  # Run a new container from the image and name it
+  sudo docker run -it -w /haystack_ws/ -d --env /opt/ros/noetic/setup.bash --privileged --name "haystack" $base_image_name:$base_tag
+
+  # Clone a Git repository inside the container
+  sudo docker exec -it -w /haystack_ws haystack git clone https://divagarn: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@github.com/haystack-nimbus/src.git -b noetic-main
+  sudo docker exec -it -w /haystack_ws  haystack bash -c "source /opt/ros/noetic/setup.bash && catkin_make"
   
-  read -p "Enter the name for the new image: " image_name
-  read -p "Enter the tag for the image: " tag
+  read -p "Enter the name for the New image: " image_name
+  read -p "Enter the tag for the New image: " tag
+  # Commit the changes to the Docker image
+  sudo docker commit haystack $image_name:$tag
   
-  sudo docker kill base_run 
-  sudo docker run --name "base_run" -it $base_image_name:$base_tag bash && \
-  sudo docker exec -it -w /haystack_ws base_run git clone https://<username>:<tokenid>@github.com/haystack-nimbus/src.git && \
-  sudo docker exec -it -w /haystack_ws base_run bash -c "source /opt/ros/noetic/setup.bash && catkin_make"
-  
-  sudo docker commit base_run $image_name:$tag
   sudo docker login -u "nimbushaystack" -p "cogniCOGNI1!"
-  
+  # Push the updated image to Docker Hub
   sudo docker push $image_name:$tag
-  echo "source added and pushed to the hub."
-  
+  # Stop and remove the named container
+  sudo docker stop haystack
+  sudo docker rm haystack
+
 else
   echo "Invalid selection. Please try again."
 fi
