@@ -48,11 +48,11 @@ elif [ $choice -eq 4 ]; then
   sudo docker stop haystack
   sudo docker rm haystack
   # Run a new container from the image and name it
-  sudo docker run -it -w /haystack_ws/ -d --env /opt/ros/noetic/setup.bash --privileged --name "haystack" $base_image_name:$base_tag
+  sudo docker run -it -w /haystack_ws/ -d --env /opt/ros/noetic/setup.bash --privileged --name "haystack" $base_image_name:$base_tag top
 
   # Clone a Git repository inside the container
-  sudo docker exec -it -w /haystack_ws haystack git clone https://<userid>:<tokenid>@github.com/haystack-nimbus/src.git -b noetic-main
-  sudo docker exec -it -w /haystack_ws  haystack bash -c "source /opt/ros/noetic/setup.bash && catkin_make"
+  sudo docker exec -w /haystack_ws haystack git clone https://<userid>:<tokenid>@github.com/haystack-nimbus/src.git -b noetic-main
+  sudo docker exec -w /haystack_ws  haystack bash -c "source /opt/ros/noetic/setup.bash ; cd /haystack_ws ;catkin_make"
   
   read -p "Enter the name for the New image: " image_name
   read -p "Enter the tag for the New image: " tag
