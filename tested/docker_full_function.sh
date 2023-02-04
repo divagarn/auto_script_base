@@ -1,11 +1,18 @@
 #!/bin/bash
 
+#############################################################################################
+#Script Name   :docker_setup.sh                                                               
+#Author        :DIVAGAR N                                                
+#Email         :n.divagar@mobiveil.co.in                                          
+#############################################################################################
+
 echo "Welcome to the Docker builder and pusher script!"
 echo "Please select an option:"
 echo "1. Pull an existing Docker image from Docker Hub"
 echo "2. Build a new Docker image and push to Docker Hub"
 echo "3. Build a new Base Docker image without src"
 echo "4. to clone the git source file to the Base image"
+echo "5. to clone the git source file to the Base image using doceker file"
 
 read -p "Selection: " choice
 
@@ -66,6 +73,37 @@ elif [ $choice -eq 4 ]; then
   # Stop and remove the named container
   sudo docker stop haystack
   sudo docker rm haystack
+  
+elif [ $choice -eq 5 ]; then
+  read -p "Enter the name for the base existing image: " base_image_name
+  read -p "Enter the tag for the base existing image: " base_tag
+  
+  cd /home 
+  mkdir -p Dockerfile
+  # Create the Dockerfile
+  cat > Dockerfile << EOL
+  
+  FROM $base_image_name:$base_tag
+  #FROM ${BASE_IMAGE}
+  ENV DEBIAN_FRONTEND=noninteractive
+  
+  cd /haystack_ws 
+  rm -rf * 
+  cd haystack_ws && \
+  git clone https://HariharanMobiveil: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@github.com/haystack-nimbus/src.git && \
+  cd src && \
+  git checkout noetic-main
+  
+  cd ..
+  RUN ["/bin/bash", "-c", "source /opt/ros/noetic/setup.bash && cd /haystack_ws && catkin_make"]
+  WORKDIR /haystack_ws/src/haystack/ui 
+  
+  EOL
+  
+  read -p "Enter the name for the New image: " image_name
+  read -p "Enter the tag for the New image: " tag
+  sudo docker build -t $image_name:$tag .
+  sudo docker push $image_name:$tag 
 
 else
   echo "Invalid selection. Please try again."
