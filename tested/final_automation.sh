@@ -17,19 +17,20 @@ echo 'haystack' | sudo -S apt-get update  ##This is the initial apt-get update
 
 ##These are to create folders and subfolders
 cd /
-mkdir haystack_disinfect_report && echo "sucessfully created haystack_disinfect_report"
+sudo mkdir haystack_disinfect_report && echo "sucessfully created haystack_disinfect_report"
 cd haystack_disinfect_report
-mkdir images
-mkdir database
+sudo mkdir images
+sudo mkdir database
 cd ..
 cd 
 
 ##This to copy the usb rules to the /etc/udev/rules.d/
 
 git clone https://<username>:<token>@github.com/haystack-nimbus/run_script.git
-
+    
 cd run_script/install
 sudo cp 10-local.rules  /etc/udev/rules.d/ && echo "usb rules file sucessfully created"
+sudo cp 99-realsense-libusb.rules /etc/udev/rules.d/ && echo "camera rules file sucessfully created"
 cp robot_config.ini /home/haystack/haystack_disinfect_report/
 
 
@@ -70,11 +71,20 @@ echo 'import subprocess' >> screenrotate.py
 echo 'subprocess.run(["/bin/bash", "/home/haystack/screenrotate.sh"])' >> screenrotate.py
 
 sudo touch /etc/systemd/system/screenrotate.service
-echo -e "[Unit]\nDescription=This script is to rotate the sreen\n[Service]\nExecStart=python3 /home/haystack/screenrotate.py\n[Install]\nWantedBy=multi-user.target" | sudo tee /etc/systemd/system/screenrotate.service
+echo -e "[Unit]\nDescription=This script is to rotate the sreen\n[Service]\nUser=root\nExecStart=python3 /home/haystack/screenrotate.py\nRestart=always\n[Install]\nWantedBy=multi-user.target" | sudo tee /etc/systemd/system/screenrotate.service
 
 sudo systemctl daemon-reload
 sudo systemctl enable screenrotate.service
 sudo systemctl start screenrotate.service
+
+##service for the hwclock sync
+sudo touch /etc/systemd/system/haystack-hwclock.service
+echo -e "[Unit]\nDescription=Haystack HWclock service\n[Service]\nUser=root\nExecStart=hwclock --hwtosys\nRestart=always\nRestartSec=10\n[Install]\nWantedBy=multi-user.target" | sudo tee /etc/systemd/system/haystack-hwclock.service
+
+sudo systemctl daemon-reload
+sudo systemctl enable haystack-hwclock.service
+sudo systemctl start haystack-hwclock.service
+
 #echo -e "xhost +\nxrandr --size 1280x720\nxrandr -o left" | sudo tee /etc/init.d/xrandr-startup
 
 #sudo update-rc.d xrandr-startup defaults
