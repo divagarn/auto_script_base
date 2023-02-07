@@ -26,12 +26,12 @@ cd
 
 ##This to copy the usb rules to the /etc/udev/rules.d/
 
-git clone https://<username>:<token>@github.com/haystack-nimbus/run_script.git
+git clone https://<userid>:<tokenid>@github.com/haystack-nimbus/run_script.git
     
 cd run_script/install
 sudo cp 10-local.rules  /etc/udev/rules.d/ && echo "usb rules file sucessfully created"
 sudo cp 99-realsense-libusb.rules /etc/udev/rules.d/ && echo "camera rules file sucessfully created"
-cp robot_config.ini /home/haystack/haystack_disinfect_report/
+sudo cp robot_config.ini /haystack_disinfect_report/
 
 
 ##This is for the wallpaper1
