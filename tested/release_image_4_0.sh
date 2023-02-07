@@ -16,6 +16,8 @@ sudo docker rm haystack
 # Run a new container from the image and name it
 sudo docker run -it -w /haystack_ws/ -d --env /opt/ros/noetic/setup.bash --privileged --name "haystack" nimbushaystack/haystack_noetic_person_follower_base:v0.0 top
 
+sudo docker exec -w /haystack_ws haystack rm -rf src
+
 # Clone a Git repository inside the container
 sudo docker exec -w /haystack_ws haystack git clone https://<userid>:<tokenid>@github.com/haystack-nimbus/src.git -b noetic-main
 sudo docker exec -w /haystack_ws haystack bash -c "source /opt/ros/noetic/setup.bash ; cd /haystack_ws ;catkin_make"
