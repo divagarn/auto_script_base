@@ -6,6 +6,12 @@
 #Email         :n.divagar@mobiveil.co.in                                          
 #############################################################################################
 
+read -p "Enter the user id of github: " user_id
+read -p "Enter the token : " token_id
+
+read -p "Enter the name for the New image: " image_name
+read -p "Enter the tag for the New image: " tag
+
 # Pull person follower base Docker image
 sudo docker pull nimbushaystack/haystack_noetic_person_follower_base:v0.0
 
@@ -13,8 +19,6 @@ sudo docker pull nimbushaystack/haystack_noetic_person_follower_base:v0.0
 sudo docker stop haystack
 sudo docker rm haystack
 
-read -p "Enter the user id of github: " user_id
-read -p "Enter the token : " token_id
 
 # Run a new container from the image and name it
 sudo docker run -it -w /haystack_ws/ -d --env /opt/ros/noetic/setup.bash --privileged --name "haystack" nimbushaystack/haystack_noetic_person_follower_base:v0.0 top
@@ -26,8 +30,7 @@ sudo docker exec -w /haystack_ws haystack git clone https://$user_id:$token_id@g
 sudo docker exec -w /haystack_ws haystack bash -c "source /opt/ros/noetic/setup.bash ; cd /haystack_ws ;catkin_make"
 sudo docker exec -w /haystack_ws/src/haystack/ui haystack echo "changed"
   
-read -p "Enter the name for the New image: " image_name
-read -p "Enter the tag for the New image: " tag
+
 # Commit the changes to the Docker image
 sudo docker commit haystack $image_name:$tag
   
