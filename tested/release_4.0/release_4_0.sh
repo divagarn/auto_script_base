@@ -10,6 +10,13 @@
 
 read -p "Enter the name for the New image: " image_name
 read -p "Enter the tag for the New image: " tag
+read -p "Enter the user name to the git: " user_name
+read -p "Enter the token id of git: " token_name
+
+export tag_ver=$tag 
+export user_id=$user_name
+export token_id=$token_name
+export message=$tag
 
 sudo docker build -t  $image_name:$tag .
 
