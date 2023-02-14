@@ -1,6 +1,6 @@
 #!/bin/bash
 #Base Image as L4T for jetpack 5.0.2
-ARG BASE_IMAGE=nimbushaystack/haystack_noetic_image_base:v1.0
+ARG BASE_IMAGE=nimbushaystack/haystack_noetic_person_follower_base:v1.0
 
 FROM ${BASE_IMAGE}
 ENV DEBIAN_FRONTEND=noninteractive
