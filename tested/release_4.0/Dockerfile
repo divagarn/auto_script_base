@@ -9,7 +9,8 @@ RUN cd /haystack_ws
 RUN rm -rf src
 
 RUN git clone https://<userid>:<tokenid>@github.com/haystack-nimbus/src.git -b noetic-main
-RUN ["/bin/bash", "-c", "source /opt/ros/noetic/setup.bash && cd /haystack_ws && catkin_make"]
+RUN git tag <tage_name>
+RUN ["/bin/bash", "-c", "source /opt/ros/noetic/setup.bash && cd /haystack_ws && catkin_make -j4"]
 
 
 
