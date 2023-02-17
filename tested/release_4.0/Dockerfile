@@ -1,6 +1,6 @@
 #!/bin/bash
 #Base Image as L4T for jetpack 5.0.2
-ARG BASE_IMAGE=nimbushaystack/haystack_noetic_person_follower_base:v1.0
+ARG BASE_IMAGE=nimbushaystack/haystack_noetic_person_follower_base:v2.0
 
 FROM ${BASE_IMAGE}
 ENV DEBIAN_FRONTEND=noninteractive
@@ -16,7 +16,7 @@ RUN git config --global user.email "n.divagar@mobiveil.co.in"
 RUN git config --global user.name "divagarn"
 
 RUN git clone https://$user_id:${token_id}@github.com/haystack-nimbus/src.git -b noetic-main
-RUN cd /haystack_ws/src && git tag -a v0.0.2 -m "dev 0.1" && git push --tags
+RUN cd /haystack_ws/src && git tag -a $tag_ver -m "dev 0.1" && git push --tags
 
 RUN cd /haystack_ws/src/haystack/src && git clone https://$user_id:${token_id}@github.com/mobiMaheshRamasamy/personFollower.git && mv personFollower/Person_Follower.py .
 
