@@ -16,7 +16,7 @@ RUN git config --global user.email "n.divagar@mobiveil.co.in"
 RUN git config --global user.name "divagarn"
 
 RUN git clone https://$user_id:${token_id}@github.com/haystack-nimbus/src.git -b noetic-main
-RUN cd /haystack_ws/src && git tag -a $tag_ver -m "dev 0.1" && git push --tags
+RUN cd /haystack_ws/src && git tag -a $tag_ver -m "$tag_ver" && git push --tags
 
 RUN cd /haystack_ws/src/haystack/src && git clone https://$user_id:${token_id}@github.com/mobiMaheshRamasamy/personFollower.git && mv personFollower/Person_Follower.py .
 
