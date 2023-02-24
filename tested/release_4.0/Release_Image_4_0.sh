@@ -18,7 +18,7 @@ export token_id=$token_name
 export message=$tag
 echo $tag_ver
 
-sudo docker build  --build-arg token_id=${token_id} --build-arg user_id=${user_id} --build-arg tag_ver={tag_ver} -t  $image_name:$tag .
+sudo docker build  --build-arg token_id=${token_id} --build-arg user_id=${user_id} --build-arg tag_ver=${tag_ver} -t  $image_name:$tag .
 
 sudo docker login -u "nimbushaystack" -p "cogniCOGNI1!"
 
