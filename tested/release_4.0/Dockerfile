@@ -19,6 +19,7 @@ RUN git clone https://$user_id:${token_id}@github.com/haystack-nimbus/src.git -b
 RUN cd /haystack_ws/src && git tag -a $tag_ver -m "$tag_ver" && git push --tags
 
 RUN cd /haystack_ws/src/haystack/src && git clone https://$user_id:${token_id}@github.com/mobiMaheshRamasamy/personFollower.git && mv personFollower/Person_Follower.py .
+RUN cd /haystack_ws/personFollower && git tag -a $tag_ver -m "$tag_ver" && git push --tags
 
 RUN ["/bin/bash", "-c", "source /opt/ros/noetic/setup.bash && cd /haystack_ws && catkin_make -j4"]
 
