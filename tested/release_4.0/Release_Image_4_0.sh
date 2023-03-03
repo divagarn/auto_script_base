@@ -20,6 +20,6 @@ echo $tag_ver
 
 sudo docker build  --build-arg token_id=${token_id} --build-arg user_id=${user_id} --build-arg tag_ver=${tag_ver} --no-cache -t  $image_name:$tag .
 
-#sudo docker login -u "nimbushaystack" -p "cogniCOGNI1!"
+sudo docker login -u "nimbushaystack" -p "cogniCOGNI1!"
 
-#sudo docker push $image_name:$tag
+sudo docker push $image_name:$tag

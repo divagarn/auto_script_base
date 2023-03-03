@@ -22,8 +22,6 @@ RUN cd /haystack_ws/src/haystack/src && git clone https://$user_id:${token_id}@g
 RUN cd /haystack_ws/src/haystack/src/personFollower && git tag -a $tag_ver -m "$tag_ver" && git push --tags
 RUN cd /haystack_ws/src/haystack/src && mv personFollower/* .
 
-#RUN ["/bin/bash", "-c", "source /opt/ros/noetic/setup.bash && cd /haystack_ws && catkin_make -j4"]
+RUN ["/bin/bash", "-c", "source /opt/ros/noetic/setup.bash && cd /haystack_ws && catkin_make -j4"]
 
-
-
-#WORKDIR /haystack_ws/src/haystack/ui
+WORKDIR /haystack_ws/src/haystack/ui
